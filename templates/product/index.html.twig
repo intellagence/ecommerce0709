@@ -1,0 +1,11 @@
+{% extends "base.html.twig" %}
+
+{% block h1 %}Gestion des produits{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-dark" href="{{ path('app_product_new') }}">Ajouter un produit</a>
+
+    {# ici on affichera le tableau des produits #}
+
+{% endblock %}

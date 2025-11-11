@@ -1,0 +1,23 @@
+{% extends "base.html.twig" %}
+
+{% block title %}Ecommerce | Vente en ligne de produits de luxe{% endblock %}
+
+{% block h1 %}Ecommerce{% endblock %}
+
+{% block body %}
+
+    <h2>Bonjour {{ firstNameTwig }}</h2>
+
+    <img src="{{ asset('images/ecommerce.webp') }}" alt="" class="imgHome">
+
+    {# <pre>
+        {{ dump(fruits) }}
+    </pre> #}
+    {% for fruit in fruits %}
+        {# <pre>
+            {{ dump(fruit) }}
+        </pre> #}
+        <h2>{{ fruit }}</h2>
+    {% endfor %}
+
+{% endblock %}

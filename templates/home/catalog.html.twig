@@ -1,0 +1,34 @@
+{% extends "base.html.twig" %}
+{#
+    On crée la structure de nos pages web sur le fichier base.html.twig et ensuite on peut l'hériter sur les vues de nos routes grâce à extends, entre quote on doit définir le nom du fichier depuis la racine du dossier templates
+
+    On hérite de l'intégralité de la structure HTML
+    Pour y placer avec précision du contenu, on utiliser les blocks
+#}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/catalog.css') }}">
+{% endblock %}
+
+{% block title %}E-commerce | Consulter nos produits{% endblock %}
+
+{% block h1 %}Catalogue{% endblock %}
+
+{% block body %}
+
+    <h2>Lorem, ipsum.</h2>  
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel iste facilis error commodi, perspiciatis voluptatum ducimus expedita! Laboriosam, dolorem. Repellendus?</p>
+
+    <h2>Lorem, ipsum.</h2>
+
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Vel iste facilis error commodi, perspiciatis voluptatum ducimus expedita! Laboriosam, dolorem. Repellendus?</p>
+
+    
+{% endblock %}
+
+
+
+
+
+
