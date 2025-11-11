@@ -30,17 +30,9 @@ _Attention n'oubliez pas d'allumer le serveur contenant PhpMyAdmin__
 
 ## Les tables
 
-Il y a 2 possibilités :
-
-- Importer le fichier **ecommerce.sql** dans la base de données (contenant des créations de table ainsi que des insertions de données)
-
 - Lancer la ligne de commande
 ```
     symfony console doctrine:migrations:migrate
-```
-## Les fixtures
-```
-    symfony console doctrine:fixtures:load
 ```
 
 ## Allumer le serveur de Symfony
