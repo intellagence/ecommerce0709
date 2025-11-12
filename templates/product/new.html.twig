@@ -7,6 +7,59 @@
     <a class="btn btn-dark" href="{{ path('app_product_index') }}">Gestion des produits</a>
 
 
-    {{ form(formProduct) }}
+    {#
+        Pour afficher les formulaires il y a 2 façons :
+
+        - 1e : avec la fonction twig form() qui prend pour argument l'objet form véhciulée depuis la méthode du controller
+        La fonction twig form() affiche l'intégralité du formulaire (de la base ouvrante à la balise fermante <form>)
+        {{ form(formProduct) }}
+
+
+
+
+        -2e : avec un ensemble de fonctions twig :
+            form_start pour ouvrir le formulaire
+            form_end pour fermer le formulaire
+
+            form_row correspond à un élément du formulaire
+            syntaxe : parent.enfant
+            exemple : formProduct.title
+
+            form_row se compose de :
+                - form_label
+                - form_widget
+                - form_errors
+                - form_help
+    
+
+        Sur Symfony, les tokens de sécurité (protection csrf token est mise en place)
+    #}
+
+
+
+
+    {{ form_start(formProduct) }} {# balise form ouvrante #}
+
+        <div class="row">
+            <div class="col-md-6">{{ form_row(formProduct.title) }}</div>
+            <div class="col-md-6">{{ form_row(formProduct.price) }}</div>
+        </div>
+        
+
+        {{ form_rest(formProduct)}}
+
+        {# {{ form_row(formProduct.description) }} #}
+
+        {# {{ form_help(formProduct.description) }}
+        {{ form_widget(formProduct.description) }}
+        {{ form_errors(formProduct.description) }}
+        {{ form_label(formProduct.description) }} #}
+
+        <input type="submit" value="Ajouter" class="btn btn-primary w-100 mt-2">
+        
+
+    {{ form_end(formProduct) }} {# balise form fermante #}
+
+
 
 {% endblock %}

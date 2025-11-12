@@ -8,3 +8,9 @@
     object-fit: cover;
 }
 
+
+
+.borderForm {
+    border: 3px solid violet;
+    border-radius: 8px;
+}

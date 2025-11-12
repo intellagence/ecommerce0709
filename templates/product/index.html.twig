@@ -8,4 +8,39 @@
 
     {# ici on affichera le tableau des produits #}
 
+    <table class="table table-hover table-striped table-bordered text-center mt-3">
+
+        <thead class="table-primary">
+            <tr>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Prix (€)</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {#
+                products est un tableau d'objets
+                on doit le boucler
+                à chaque tour de boucle, on extrait un objet (product)
+                Dans l'objet il y a des propriétés : id, title, price etc...
+
+                On ne peut pas afficher un objet, on affiche cependant les propriétés situées dans l'objet
+                syntaxe : objet.propriété
+            #}
+            {% for product in products %}
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.title }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>{{ product.description }}</td>
+                    <td></td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
 {% endblock %}

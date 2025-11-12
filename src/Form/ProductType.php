@@ -6,16 +6,107 @@ use App\Entity\Product;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /*
+            Dans les méthodes, on peut retrouver dans les parenthèses, des dépendances :
+            syntaxe Class $object
+
+            Dans l'object $builder on retrouve des méthodes add()
+            Chacune va correspondre à un élément (child) du formulaire
+            Si la class Form est rattachée à une class Entity
+            les éléments du formulaire doivent correspondre aux propriétés de l'entity
+
+            Il y a 3 arguments dans la méthode add()
+            - 1e : (string) OBLIGATOIRE : nom de la propriété
+            - 2e : ClassType::class : type de l'élément (textarea, select, input de type : text, number, password etc...)
+            - 3e : (type array) tableau des options 
+                    Il existe 2 categories d'options :
+                        - les options communes à toutes les class (Type) : attr, label, required etc... 
+                        - les options propres à la class (Type)
+
+        */
+            
         $builder
-            ->add('title')
-            ->add('price')
-            ->add('description')
+
+            ->add('title', null, [
+                // key => value
+                'label' => 'Titre du produit <span class="text-danger">*</span>',
+                'label_html' => true,
+                'label_attr' => [
+                    'class' => 'text-success'
+                ],
+                'attr' => [
+                    'placeholder' => 'Saisir le titre du produit',
+                    'class' => 'borderForm'
+                ],
+                'help' => 'Le titre doit contenir entre 5 et 25 caractères',
+                'help_attr' => [
+                    'class' => 'text-info'
+                ],
+                'required' => false,
+                'row_attr' => [
+                    'class' => 'p-4 my-4 border border-dark rounded bg-light'
+                ]
+            ])
+
+            ->add('price', MoneyType::class, [
+                'currency' => 'EUR',
+                'label' => 'Prix <span class="text-danger">*</span>',
+                'label_html' => true,
+                'label_attr' => [
+                    'class' => 'text-success'
+                ],
+                'attr' => [
+                    'placeholder' => 'Saisir le prix du produit',
+                    'class' => 'borderForm'
+                ],
+                'help' => 'Le prix doit être strictement supérieur à <span class="text-danger">zéro</span>',
+                'help_html' => true,
+                'help_attr' => [
+                    'class' => 'text-info'
+                ],
+                'required' => false,
+                'row_attr' => [
+                    'class' => 'p-4 my-4 border border-dark rounded bg-light'
+                ]
+            ])
+
+            ->add('description', TextareaType::class, [
+                'label' => 'Description <span class="text-warning">(Facultative)</span>',
+                'label_html' => true,
+                'label_attr' => [
+                    'class' => 'text-success'
+                ],
+                'attr' => [
+                    'placeholder' => 'Saisir la description du produit',
+                    'class' => 'borderForm',
+                    'rows' => 4
+                ],
+                'help' => 'La description doit être inférieure à <span class="text-danger">200</span> caractères',
+                'help_html' => true,
+                'help_attr' => [
+                    'class' => 'text-info'
+                ],
+                'required' => false,
+                'row_attr' => [
+                    'class' => 'p-4 my-4 border border-dark rounded bg-light'
+                ]
+            ])
+
+            // ->add('Enregistrer', SubmitType::class)
         ;
+
+
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
