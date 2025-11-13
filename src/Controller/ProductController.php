@@ -11,10 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
+
+#[Route('/produits')]
 final class ProductController extends AbstractController
 {
     
-    #[Route('/product', name:'app_product_index')]
+    #[Route('', name:'app_product_index')]
     public function index(ProductRepository $productRepository): Response
     {
         /*
@@ -38,7 +40,7 @@ final class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/product/new', name:'app_product_new')]
+    #[Route('/new', name:'app_product_new')]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         // Création d'un objet issu de la class (Entity) Product
@@ -103,6 +105,54 @@ final class ProductController extends AbstractController
             */
         ]);
     }
+
+    #[Route('/show/{id}', name:'app_product_show')]
+    public function show(Product $product): Response
+    {
+        /*
+            On récupère le paramètre de l'URL dans la route, il s'écrit entre accolade et doit s'appeller comme dans la fonction twig path,
+
+            Ici ce paramètre est une clé primaire, elle est injectée dans l'objet créé en dépendence, Doctrine se charge de récupérer l'intégralité des données provenant de la table
+        */
+        return $this->render('product/show.html.twig', [
+            'product' => $product
+        ]);
+    }
+
+    #[Route('/edit/{id}', name:'app_product_edit')]
+    public function edit(Product $product, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(ProductType::class, $product);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le produit a bien été modifié');
+
+            return $this->redirectToRoute('app_product_index');
+
+        }
+        return $this->render('product/edit.html.twig', [
+            'product' => $product,
+            'formProduct' => $form
+        ]);
+    }
+
+    #[Route('/delete/{id}', name:'app_product_delete')]
+    public function delete(Product $product, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($product);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Le produit a bien été supprimé');
+
+        return $this->redirectToRoute('app_product_index');
+    }
+
+
 
 }
 

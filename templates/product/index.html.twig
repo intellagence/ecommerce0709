@@ -50,17 +50,23 @@
                     </td>
 
                     <td>
-                        <a href="" class="text-decoration-none">
+                        <a href="{{ path('app_product_show', {'id' : product.id }) }}" class="text-decoration-none">
                             {{ ux_icon('lucide:file', {'class': 'icon25 text-warning'}) }}
                         </a>
 
-                        <a href="" class="text-decoration-none">
+                        <a href="{{ path('app_product_edit', {'id' : product.id }) }}" class="text-decoration-none">
                             {{ ux_icon('lucide:edit', {'class': 'icon25 text-primary'}) }}
                         </a>
                         
-                        <a href="" class="text-decoration-none">
+                        <a 
+                            href="{{ path('app_product_delete', {'id' : product.id }) }}" 
+                            class="text-decoration-none"
+                            onclick="return confirm('êtes-vous sûr de vouloir supprimer ce produit ?')"
+                        >
                             {{ ux_icon('lucide:trash-2', {'class': 'icon25 text-danger'}) }}
                         </a>
+
+                     
                     </td>
 
                 </tr>

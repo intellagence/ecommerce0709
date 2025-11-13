@@ -1,0 +1,35 @@
+{% extends "base.html.twig" %}
+
+{% block h1 %}{{ product.title|capitalize }}{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-dark" href="{{ path('app_product_index') }}">Gestion des produits</a>
+
+    <table class="table table-hover table-striped table-bordered mt-3">
+        <tr>
+            <th>ID</th>
+            <td>{{ product.id }}</td>
+        </tr>
+        <tr>
+            <th>Titre</th>
+            <td>{{ product.title|capitalize }}</td>
+        </tr>
+        <tr>
+            <th>Prix</th>
+            <td>{{ product.price }}€</td>
+        </tr>
+        <tr>
+            <th>Description</th>
+            <td>
+                {% if product.description %}
+                    {{ product.description|nl2br }}
+                    {# nl2br => New Line To BReak #}
+                {% else %}
+                    {{ ux_icon('iconoir:xmark', {'class': 'icon30 text-danger'}) }}
+                {% endif %}
+
+            </td>
+        </tr>
+    </table>
+{% endblock %}
