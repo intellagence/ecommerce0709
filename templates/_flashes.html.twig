@@ -1,0 +1,31 @@
+{#
+    Sur twig, il existe une variable d'environnement (= array / équivalent de la session)
+
+    On y retrouve les informations de l'utilisateur connecté
+    également les flashes
+    etc... 
+
+    Cette variable d'environnement se nomme 'app'
+
+    Pour accéder aux flashes
+
+    dans app on accède à la key "flashes"
+    app.flashes
+
+    c'est un tableau qui contiendra nos flashes regroupés par le type (qui sera la key dans le tableau)
+
+    Chaque key a pour valeur un tableau
+
+#}
+
+{% for notification in app.flashes('success') %}
+    <div class="alert alert-success text-center w-50 mx-auto p-2 m-2">
+        {{ notification }}
+    </div>
+{% endfor %}
+
+{% for notification in app.flashes('error') %}
+    <div class="alert alert-danger text-center w-50 mx-auto p-2 m-2">
+        {{ notification }}
+    </div>
+{% endfor %}

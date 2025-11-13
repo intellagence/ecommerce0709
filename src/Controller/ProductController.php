@@ -87,6 +87,8 @@ final class ProductController extends AbstractController
 
 
             // Notification
+            $this->addFlash('success', 'Le produit a bien été ajouté');
+
 
             // Redirection (équivalent à la fonction twig path())
             return $this->redirectToRoute('app_product_index');

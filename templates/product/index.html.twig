@@ -1,6 +1,6 @@
 {% extends "base.html.twig" %}
 
-{% block h1 %}Gestion des produits{% endblock %}
+{% block h1 %}Gestion des produits ({{ products|length }}){% endblock %}
 
 {% block body %}
 
@@ -33,10 +33,40 @@
             {% for product in products %}
                 <tr>
                     <td>{{ product.id }}</td>
-                    <td>{{ product.title }}</td>
+                    <td>{{ product.title|capitalize }}</td>
                     <td>{{ product.price }}</td>
-                    <td>{{ product.description }}</td>
-                    <td></td>
+                    <td>
+                        {% if product.description %}
+
+                            {% if product.description|length > 40 %}
+                                {{ product.description|slice(0,40) }}...
+                            {% else %}
+                                {{ product.description }}
+                            {% endif %}
+                            {# {{ product.description|nl2br }} #}
+                        {% else %}
+                            {{ ux_icon('iconoir:xmark', {'class': 'icon30 text-danger'}) }}
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="" class="text-decoration-none">
+                            {{ ux_icon('lucide:file', {'class': 'icon25 text-warning'}) }}
+                        </a>
+
+                        <a href="" class="text-decoration-none">
+                            {{ ux_icon('lucide:edit', {'class': 'icon25 text-primary'}) }}
+                        </a>
+                        
+                        <a href="" class="text-decoration-none">
+                            {{ ux_icon('lucide:trash-2', {'class': 'icon25 text-danger'}) }}
+                        </a>
+                    </td>
+
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Aucun résultat</td>
                 </tr>
             {% endfor %}
         </tbody>
@@ -44,3 +74,4 @@
     </table>
 
 {% endblock %}
+

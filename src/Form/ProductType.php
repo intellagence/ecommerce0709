@@ -11,6 +11,9 @@ use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Positive;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ProductType extends AbstractType
 {
@@ -55,6 +58,17 @@ class ProductType extends AbstractType
                 'required' => false,
                 'row_attr' => [
                     'class' => 'p-4 my-4 border border-dark rounded bg-light'
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir le titre du produit'
+                    ]),
+                    new Length([
+                        'min' => 5,
+                        'max' => 25,
+                        'minMessage' => '5 caractères minimum',
+                        'maxMessage' => '25 caractères maximum'
+                    ])
                 ]
             ])
 
@@ -77,6 +91,14 @@ class ProductType extends AbstractType
                 'required' => false,
                 'row_attr' => [
                     'class' => 'p-4 my-4 border border-dark rounded bg-light'
+                ],
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir le prix du produit'
+                    ]),
+                    new Positive([
+                        'message' => 'Veuillez saisir un prix strictement supérieur à zéro'
+                    ])
                 ]
             ])
 
@@ -99,6 +121,12 @@ class ProductType extends AbstractType
                 'required' => false,
                 'row_attr' => [
                     'class' => 'p-4 my-4 border border-dark rounded bg-light'
+                ],
+                'constraints' => [
+                    new Length([
+                        'max' => 200,
+                        'maxMessage' => '200 caractères maximum'
+                    ])
                 ]
             ])
 

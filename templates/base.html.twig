@@ -21,6 +21,9 @@
 
         <main class="container">
             <h1 class="text-center text-danger fst-italic mt-3">{% block h1 %}{% endblock %}</h1>
+
+            {% include "_flashes.html.twig" %}
+            
             {% block body %}{% endblock %}
         </main>
 
