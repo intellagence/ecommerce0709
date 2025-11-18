@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Category{% endblock %}
+
+{% block h1 %}Modifier la catégorie "{{ category.title|capitalize }}"{% endblock %}
+
+{% block body %}
+    <a class="btn btn-dark mb-3" href="{{ path('app_category_index') }}">Gestion des catégories</a>
+
+    <section class="col-md-6 mx-auto">
+        {{ include('category/_form.html.twig', {'button_label': 'Modifier la catégorie'}) }}
+    </section>
+{% endblock %}

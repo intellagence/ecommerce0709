@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Category{% endblock %}
+
+{% block h1 %}{{ category.title|capitalize }}{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-dark" href="{{ path('app_category_index') }}">Gestion des catégories</a>
+
+    <table class="table table-hover table-striped table-bordered mt-3">
+        <tbody>
+            <tr>
+                <th>ID</th>
+                <td>{{ category.id }}</td>
+            </tr>
+            <tr>
+                <th>Titre</th>
+                <td>{{ category.title|capitalize }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

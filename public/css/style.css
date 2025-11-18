@@ -24,3 +24,9 @@
     width: 25px;
     height: 25px;
 }
+
+.btn-no-design{
+    background-color: transparent;
+    border:none;
+    padding: 0;
+}
