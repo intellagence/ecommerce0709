@@ -16,6 +16,7 @@
                 <th>Titre</th>
                 <th>Prix (€)</th>
                 <th>Description</th>
+                <th>Catégorie</th>
                 <th></th>
             </tr>
         </thead>
@@ -29,8 +30,29 @@
 
                 On ne peut pas afficher un objet, on affiche cependant les propriétés situées dans l'objet
                 syntaxe : objet.propriété
+
+                Les propriétés relationnelles sont des objets (ou bien des tableaux des objets)
+
+                objet.objet.propriété
+
+                object.property 
+                ex: product.title 
+
+                il existe des propriétés relationnelles 
+                object.object 
+                ex : product.category 
+
+                product.category.title
+
+
+                product.category = null
+                product.category.title
+
             #}
+
+
             {% for product in products %}
+
                 <tr>
                     <td>{{ product.id }}</td>
                     <td>{{ product.title|capitalize }}</td>
@@ -44,6 +66,18 @@
                                 {{ product.description }}
                             {% endif %}
                             {# {{ product.description|nl2br }} #}
+                        {% else %}
+                            {{ ux_icon('iconoir:xmark', {'class': 'icon30 text-danger'}) }}
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {# si category de product n'est pas null (c'est un objet) #}
+
+                        {% if product.category %}
+                            <a href="{{ path('app_category_show', {'id' : product.category.id }) }}">
+                                {{ product.category.title|capitalize }}
+                            </a>
                         {% else %}
                             {{ ux_icon('iconoir:xmark', {'class': 'icon30 text-danger'}) }}
                         {% endif %}

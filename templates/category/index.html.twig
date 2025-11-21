@@ -15,29 +15,31 @@
             <tr>
                 <th>Id</th>
                 <th>Titre</th>
+                <th>Quantité</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-        {% for category in categories %}
-            <tr>
-                <td class="w-25">{{ category.id }}</td>
-                <td class="w-50">{{ category.title|capitalize }}</td>
-                <td class="w-25">
-                    <a href="{{ path('app_category_show', {'id': category.id}) }}" class="text-decoration-none">
-                    {{ ux_icon('lucide:file', {'class': 'icon25 text-warning'}) }}
-                    </a>
-                    <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="text-decoration-none">
-                    {{ ux_icon('lucide:edit', {'class': 'icon25 text-primary'}) }}
-                    </a>
-                    {{ include('category/_delete_form.html.twig') }}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">Aucun résultat</td>
-            </tr>
-        {% endfor %}
+            {% for category in categories %}
+                <tr>
+                    <td class="w-25">{{ category.id }}</td>
+                    <td class="w-25">{{ category.title|capitalize }}</td>
+                    <td class="w-25">{{ category.products|length }}</td>
+                    <td class="w-25">
+                        <a href="{{ path('app_category_show', {'id': category.id}) }}" class="text-decoration-none">
+                        {{ ux_icon('lucide:file', {'class': 'icon25 text-warning'}) }}
+                        </a>
+                        <a href="{{ path('app_category_edit', {'id': category.id}) }}" class="text-decoration-none">
+                        {{ ux_icon('lucide:edit', {'class': 'icon25 text-primary'}) }}
+                        </a>
+                        {{ include('category/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucun résultat</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 

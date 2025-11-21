@@ -31,5 +31,15 @@
 
             </td>
         </tr>
+        <tr>
+            <th>Catégorie</th>
+            <td>
+                {% if product.category %}
+                    <a href="{{ path('app_category_show', {'id' : product.category.id }) }}">{{ product.category.title|capitalize }}</a>
+                {% else %}
+                    {{ ux_icon('iconoir:xmark', {'class': 'icon30 text-danger'}) }}
+                {% endif %}
+            </td>
+        </tr>
     </table>
 {% endblock %}

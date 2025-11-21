@@ -21,4 +21,74 @@
         </tbody>
     </table>
 
+    <h2>Les produits de la catégorie</h2>
+
+    <table class="table table-hover table-striped table-bordered text-center mt-3">
+
+        <thead class="table-primary">
+            <tr>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Prix (€)</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+
+
+            {% for product in category.products %}
+
+                <tr>
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.title|capitalize }}</td>
+                    <td>{{ product.price }}</td>
+                    <td>
+                        {% if product.description %}
+
+                            {% if product.description|length > 40 %}
+                                {{ product.description|slice(0,40) }}...
+                            {% else %}
+                                {{ product.description }}
+                            {% endif %}
+                            {# {{ product.description|nl2br }} #}
+                        {% else %}
+                            {{ ux_icon('iconoir:xmark', {'class': 'icon30 text-danger'}) }}
+                        {% endif %}
+                    </td>
+
+
+                    <td>
+                        <a href="{{ path('app_product_show', {'id' : product.id }) }}" class="text-decoration-none">
+                            {{ ux_icon('lucide:file', {'class': 'icon25 text-warning'}) }}
+                        </a>
+
+                        {# <a href="{{ path('app_product_edit', {'id' : product.id }) }}" class="text-decoration-none">
+                            {{ ux_icon('lucide:edit', {'class': 'icon25 text-primary'}) }}
+                        </a>
+                        
+                        <a 
+                            href="{{ path('app_product_delete', {'id' : product.id }) }}" 
+                            class="text-decoration-none"
+                            onclick="return confirm('êtes-vous sûr de vouloir supprimer ce produit ?')"
+                        >
+                            {{ ux_icon('lucide:trash-2', {'class': 'icon25 text-danger'}) }}
+                        </a> #}
+
+                     
+                    </td>
+
+                </tr>
+
+            {% else %}
+                <tr>
+                    <td colspan="4">Aucun résultat</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+    </table>
+
 {% endblock %}

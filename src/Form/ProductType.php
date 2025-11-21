@@ -3,17 +3,19 @@
 namespace App\Form;
 
 use App\Entity\Product;
+use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Positive;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\Positive;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class ProductType extends AbstractType
 {
@@ -126,6 +128,24 @@ class ProductType extends AbstractType
                     new Length([
                         'max' => 200,
                         'maxMessage' => '200 caractères maximum'
+                    ])
+                ]
+            ])
+
+            ->add('category', EntityType::class, [ // EntityType : Recherche en BDD (relation)
+                'class' => Category::class, // En bdd, dans quelle table récupérer
+                'choice_label' => 'title', // Afficher dans le select la propriété title
+                //'multiple' => true, UNIQUEMENT RELATION MANY (plusieurs choix) / par défaut false
+
+
+                'label' => 'Catégorie<span class="text-danger">*</span>',
+                'label_html' => true,
+                'required' => false,
+                'placeholder' => '-- Saisir la catégorie --',
+                'expanded' => false, // false : balise select, true : radio/checkbox
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir la catégorie du produit'
                     ])
                 ]
             ])
