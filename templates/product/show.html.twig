@@ -41,5 +41,16 @@
                 {% endif %}
             </td>
         </tr>
+
+        <tr>
+            <th>Marque</th>
+            <td>
+                {% if product.brand %}
+                    <a href="{{ path('app_brand_show', {'id' : product.brand.id }) }}">{{ product.brand.title|capitalize }}</a>
+                {% else %}
+                    {{ ux_icon('iconoir:xmark', {'class': 'icon30 text-danger'}) }}
+                {% endif %}
+            </td>
+        </tr>
     </table>
 {% endblock %}

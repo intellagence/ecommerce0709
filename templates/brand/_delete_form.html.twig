@@ -1,0 +1,9 @@
+<form 
+    class="d-inline-block" 
+    method="post" 
+    action="{{ path('app_brand_delete', {'id': brand.id}) }}"
+    onsubmit="return confirm('Are you sure you want to delete this item?');"
+>
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ brand.id) }}">
+    <button class="btn-no-design">{{ ux_icon('lucide:trash-2', {'class': 'icon25 text-danger'}) }}</button>
+</form>

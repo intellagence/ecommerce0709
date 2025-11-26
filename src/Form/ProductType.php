@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Brand;
 use App\Entity\Product;
 use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
@@ -146,6 +147,25 @@ class ProductType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir la catégorie du produit'
+                    ])
+                ]
+            ])
+
+
+            ->add('brand', EntityType::class, [ // EntityType : Recherche en BDD (relation)
+                'class' => Brand::class, // En bdd, dans quelle table récupérer
+                'choice_label' => 'title', // Afficher dans le select la propriété title
+                //'multiple' => true, UNIQUEMENT RELATION MANY (plusieurs choix) / par défaut false
+
+
+                'label' => 'Marque<span class="text-danger">*</span>',
+                'label_html' => true,
+                'required' => false,
+                'placeholder' => '-- Saisir la marque --',
+                'expanded' => false, // false : balise select, true : radio/checkbox
+                'constraints' => [
+                    new NotBlank([
+                        'message' => 'Veuillez saisir la marque du produit'
                     ])
                 ]
             ])
