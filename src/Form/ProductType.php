@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Brand;
 use App\Entity\Product;
 use App\Entity\Category;
+use App\Entity\Material;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -17,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Validator\Constraints\Count;
 
 class ProductType extends AbstractType
 {
@@ -166,6 +168,24 @@ class ProductType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Veuillez saisir la marque du produit'
+                    ])
+                ]
+            ])
+
+            ->add('materials', EntityType::class, [ // EntityType : Recherche en BDD (relation)
+                'class' => Material::class, // En bdd, dans quelle table récupérer
+                'choice_label' => 'title', // Afficher dans le select la propriété title
+                'multiple' => true,
+
+                'label' => 'Matière(s)<span class="text-danger">*</span>',
+                'label_html' => true,
+                'required' => false,
+                'placeholder' => '-- Saisir au moins une matière --',
+                'expanded' => true, // false : balise select, true : radio/checkbox
+                'constraints' => [
+                    new Count([
+                        'min' => 1,
+                        'minMessage' => 'Veuillez cocher au moins une matière'
                     ])
                 ]
             ])

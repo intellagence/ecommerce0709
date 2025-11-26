@@ -52,5 +52,38 @@
                 {% endif %}
             </td>
         </tr>
+
+        <tr>
+            {# variable twig #}
+            {% set age = 22 %}
+
+            {#
+                Si le nombre de matières est supérieur à 1 
+                "Matières" prend un S
+                Sinon
+                "Matière" ne prend pas de S
+            
+            #}
+
+            {% set materialName = '' %}
+            
+            {% if product.materials|length > 1 %}
+                {% set materialName = 's' %}
+            {% endif %}
+
+            <th>Matière{{ materialName }}</th>
+            <td>
+                <ul class="list-group">
+                    {% for material in product.materials %}
+                        <a class="text-decoration-none" href="{{ path('app_material_show', {'id' : material.id }) }}">
+                            <li class="list-group-item list-group-item-action">{{ material.title }}</li>
+                        </a>
+                    {% endfor %}
+                </ul>
+
+            </td>
+        </tr>
+
+
     </table>
 {% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Material index{% endblock %}
+
+{% block h1 %}Gestion des matières ({{ materials|length }}){% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-dark" href="{{ path('app_material_new') }}">Ajouter une matière</a>
+
+
+    <table class="table table-hover table-striped table-bordered text-center mt-3">
+
+        <thead class="table-primary">
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for material in materials %}
+            <tr>
+                <td>{{ material.id }}</td>
+                <td>{{ material.title }}</td>
+                <td>
+                    <a href="{{ path('app_material_show', {'id': material.id}) }}">show</a>
+                    <a href="{{ path('app_material_edit', {'id': material.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

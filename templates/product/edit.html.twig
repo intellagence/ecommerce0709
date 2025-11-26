@@ -12,6 +12,13 @@
             <div class="col-md-6">{{ form_row(formProduct.title) }}</div>
             <div class="col-md-6">{{ form_row(formProduct.price) }}</div>
         </div>
+
+        {{ form_row(formProduct.description) }}
+
+        <div class="row">
+            <div class="col-md-6">{{ form_row(formProduct.category) }}</div>
+            <div class="col-md-6">{{ form_row(formProduct.brand) }}</div>
+        </div>
         
 
         {{ form_rest(formProduct)}}

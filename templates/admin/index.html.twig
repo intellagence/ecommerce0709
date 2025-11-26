@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Back office{% endblock %}
+
+{% block h1 %}Back office{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+
+        <div class="list-group col-lg-3 col-md-6 my-2">
+            <a href="{{ path('app_product_index') }}" class="list-group-item list-group-item-action text-white bg-primary">
+                Gestion des produits
+            </a>
+            <a href="{{ path('app_product_new') }}" class="list-group-item list-group-item-action">Ajouter</a>
+        </div>
+
+        <div class="list-group col-lg-3 col-md-6 my-2">
+            <a href="{{ path('app_category_index') }}" class="list-group-item list-group-item-action text-white bg-danger">
+                Gestion des catégories
+            </a>
+            <a href="{{ path('app_category_new') }}" class="list-group-item list-group-item-action">Ajouter</a>
+        </div>
+
+        <div class="list-group col-lg-3 col-md-6 my-2">
+            <a href="{{ path('app_brand_index') }}" class="list-group-item list-group-item-action text-white bg-success">
+                Gestion des marques
+            </a>
+            <a href="{{ path('app_brand_new') }}" class="list-group-item list-group-item-action">Ajouter</a>
+        </div>
+
+        <div class="list-group col-lg-3 col-md-6 my-2">
+            <a href="{{ path('app_material_index') }}" class="list-group-item list-group-item-action text-white bg-warning">
+                Gestion des matières
+            </a>
+            <a href="{{ path('app_material_new') }}" class="list-group-item list-group-item-action">Ajouter</a>
+        </div>
+        
+    </div>
+{% endblock %}
