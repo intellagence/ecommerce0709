@@ -25,9 +25,40 @@
                     #}
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{ path('app_admin') }}">Back office</a>
-                </li>
+                
+
+            
+                {# Si un utilisateur est connecté #}
+                {% if app.user %}
+
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="{{ path('app_admin') }}">Back office</a>
+                        </li>
+                    {% endif %}
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('app_profile_index') }}">Mon compte</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('app_logout') }}">Déconnexion</a>
+                    </li>
+                    
+                {% else %} {# utilisateur non connecté #}
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('app_register') }}">Inscription</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="{{ path('app_login') }}">Connexion</a>
+                    </li>
+                {% endif %}
+                {#
+                    app.user retourne :
+                        - null : s'il n'y a pas d'utilisateur connecté
+                        - objet issu de l'entity User : s'il y a un utilisateur connecté
+                #}
 
             </ul>
         </div>

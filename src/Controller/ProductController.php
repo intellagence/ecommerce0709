@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Comment;
 use App\Entity\Product;
+use App\Form\CommentType;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
-#[Route('/product')]
+#[Route('/admin/product')]
 final class ProductController extends AbstractController
 {
     
@@ -107,15 +109,37 @@ final class ProductController extends AbstractController
     }
 
     #[Route('/show/{id}', name:'app_product_show')]
-    public function show(Product $product): Response
+    public function show(Product $product, Request $request, EntityManagerInterface $entityManager): Response
     {
         /*
             On récupère le paramètre de l'URL dans la route, il s'écrit entre accolade et doit s'appeller comme dans la fonction twig path,
 
             Ici ce paramètre est une clé primaire, elle est injectée dans l'objet créé en dépendence, Doctrine se charge de récupérer l'intégralité des données provenant de la table
         */
+
+        $comment = new Comment();
+        
+        $form = $this->createForm(CommentType::class, $comment);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $comment->setProduct($product);
+            $comment->setUser($this->getUser());
+            
+            $entityManager->persist($comment);
+            $entityManager->flush();
+
+            $this->addFlash('success', 'Le commentaire a bien été ajouté');
+
+            return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
+
+        }
+
         return $this->render('product/show.html.twig', [
-            'product' => $product
+            'product' => $product,
+            'form' => $form
         ]);
     }
 

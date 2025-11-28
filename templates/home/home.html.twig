@@ -6,7 +6,22 @@
 
 {% block body %}
 
-    <h2>Bonjour {{ firstNameTwig }}</h2>
+    {# <h2>Bonjour {{ firstNameTwig }}</h2> #}
+    <h2>Bonjour 
+        {% if app.user %}
+            {{ app.user.firstName}}
+        {% endif %}
+    </h2>
+
+    <pre>
+        {{ dump(app.user) }}
+    </pre>
+
+    {#
+        app.user retourne :
+            - null : s'il n'y a pas d'utilisateur connecté
+            - objet issu de l'entity User
+    #}
 
     <img src="{{ asset('images/ecommerce.webp') }}" alt="" class="imgHome">
 

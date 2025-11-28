@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block h1 %}Mon compte{% endblock %}
+
+{% block body %}
+    <ul class="list-group">
+        <li class="list-group-item">Email : {{ app.user.email }}</li>
+        <li class="list-group-item">Nom : {{ app.user.lastName }}</li>
+        <li class="list-group-item">Prénom : {{ app.user.firstName }}</li>
+    </ul>
+
+    <a class="btn btn-dark" href="">Modifier mon compte</a>
+    <a class="btn btn-dark" href="">Modifier mon mot de passe</a>
+    <a class="btn btn-dark" href="">Supprimer mon compte</a>
+{% endblock %}

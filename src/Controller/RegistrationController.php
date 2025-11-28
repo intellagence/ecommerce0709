@@ -31,7 +31,7 @@ class RegistrationController extends AbstractController
             $entityManager->flush();
 
             // do anything else you need here, like send an email
-
+            $this->addFlash('success', 'Vous êtes bien inscrit');
             return $this->redirectToRoute('app_login');
         }
 

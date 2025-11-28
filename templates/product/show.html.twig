@@ -86,4 +86,19 @@
 
 
     </table>
+
+
+    {% for comment in product.comments %}
+        <div class="shadow p-4 m-4">
+            {{comment.message}}
+        </div>
+    {% endfor %}
+
+    {{ form_start(form) }} {# balise form ouvrante #}
+        {{ form_row(form.message) }}
+
+        <input type="submit" value="Ajouter" class="btn btn-primary w-100 mt-2">
+    
+
+    {{ form_end(form) }}
 {% endblock %}
