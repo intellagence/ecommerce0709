@@ -1,6 +1,9 @@
 twig:
     file_name_pattern: '*.twig'
     form_themes: ['bootstrap_5_layout.html.twig']
+    globals:
+        company: 'E-com-mer-ce'
+        parameter: '@App\Service\ParameterService'
 
 when@test:
     twig:

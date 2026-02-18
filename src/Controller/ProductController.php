@@ -82,6 +82,39 @@ final class ProductController extends AbstractController
 
             */
 
+
+            // Y-a t-il un fichier image chargé ?
+
+            $imageFile = $form->get('picture')->getData();
+
+            /*
+                Observation :
+                $imageFile retourne null si aucun fichier n'a été chargé
+                $imageFile retourne un objet issu de la class uploadedFile si un fichier a été chargé
+            */
+
+            if ($imageFile) {
+                // 1e étape : définir le nom du fichier
+                $nameFile = date('YmdHis') . '-' . rand(1000,9999) . '-' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+                //              20260203095311 - 4893 - 13 caractères . extension
+
+                // 2e étape : enregistrer le fichier chargé dans le projet
+                $imageFile->move( 
+                    $this->getParameter('image_product'),
+                    $nameFile
+                );
+                /*
+                    move()
+                    2 arguments :
+                    - 1e : chemin 
+                    - 2e : nom du fichier
+                */
+
+                // 3e étape : Enregistrer le nom du fichier dans l'objet $product
+                $product->setPicture($nameFile);
+                
+            }
+
             // Insérer le produit en base de données
             $entityManager->persist($product);
             $entityManager->flush();
@@ -152,6 +185,24 @@ final class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+
+            $imageFile = $form->get('picture')->getData();
+
+            if ($imageFile) {
+                $nameFile = date('YmdHis') . '-' . rand(1000,9999) . '-' . uniqid() . '.' . $imageFile->getClientOriginalExtension();
+                $imageFile->move( 
+                    $this->getParameter('image_product'),
+                    $nameFile
+                );
+
+                if ($product->getPicture()) {
+                    unlink($this->getParameter('image_product') . '/' . $product->getPicture());
+                }
+
+                $product->setPicture($nameFile);
+                
+            }
+
             $entityManager->flush();
 
             $this->addFlash('success', 'Le produit a bien été modifié');
@@ -168,6 +219,11 @@ final class ProductController extends AbstractController
     #[Route('/delete/{id}', name:'app_product_delete')]
     public function delete(Product $product, EntityManagerInterface $entityManager): Response
     {
+
+        if ($product->getPicture()) {
+            unlink($this->getParameter('image_product') . '/' . $product->getPicture());
+        }
+
         $entityManager->remove($product);
         $entityManager->flush();
 

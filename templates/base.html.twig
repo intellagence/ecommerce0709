@@ -12,6 +12,11 @@
             Elle prend 1 argument OBLIGATOIRE (type: string) : nom du fichier à appeler ainsi que son emplacement dans le dossier
         #}
         {% block stylesheets %}{% endblock %}
+
+
+        {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
+        {% endblock %}
     </head>
 
     <body>

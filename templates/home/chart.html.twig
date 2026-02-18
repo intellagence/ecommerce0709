@@ -1,0 +1,13 @@
+{% extends "base.html.twig" %}
+
+{% block title %}E-commerce | Chart{% endblock %}
+
+{% block h1 %}Chart{% endblock %}
+
+{% block body %}
+
+    <div style="height: 500px;">
+        {{ render_chart(chart) }}
+    </div>
+{% endblock %}
+

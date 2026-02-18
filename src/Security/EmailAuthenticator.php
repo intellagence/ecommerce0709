@@ -2,8 +2,13 @@
 
 namespace App\Security;
 
+use App\Entity\CartItem;
+use App\Repository\CartItemRepository;
+use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -22,8 +27,9 @@ class EmailAuthenticator extends AbstractLoginFormAuthenticator
 
     public const LOGIN_ROUTE = 'app_login';
 
-    public function __construct(private UrlGeneratorInterface $urlGenerator)
+    public function __construct(private UrlGeneratorInterface $urlGenerator, private RequestStack $requestStack, private ProductRepository $productRepository, private CartItemRepository $cartItemRepository, private EntityManagerInterface $entityManager)
     {
+        $session = $this->requestStack->getSession();
     }
 
     public function authenticate(Request $request): Passport
@@ -47,6 +53,37 @@ class EmailAuthenticator extends AbstractLoginFormAuthenticator
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
+
+        $user = $token->getUser();
+
+        $cartSession = $this->requestStack->getSession()->get('cart');
+
+        if ($cartSession) {
+            foreach ($cartSession as $id => $quantity) {
+                $product = $this->productRepository->find($id);
+
+                $cartItemExisting = $this->cartItemRepository->findOneBy([
+                    'product' => $product,
+                    'user' => $user
+                ]);
+
+                if ($cartItemExisting) {
+                    $cartItemExisting->setQuantity($cartItemExisting->getQuantity() + $quantity);
+                } else {
+                    $cartItem = new CartItem();
+                    $cartItem->setUser($user);
+                    $cartItem->setProduct($product);
+                    $cartItem->setQuantity($quantity);
+                    $this->entityManager->persist($cartItem);
+                }
+                $this->entityManager->flush();
+
+            }
+
+            $this->requestStack->getSession()->remove('cart');
+        }
+
+
 
         // For example:
         return new RedirectResponse($this->urlGenerator->generate('app_home'));

@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block h1 %}Mon panier{% endblock %}
+
+{% block body %}
+    {# <pre>
+        {{ dump(cartProducts) }}
+    </pre> #}
+
+    <table class="table table-hover table-striped table-bordered text-center mt-3">
+
+        <thead class="table-primary">
+            <tr>
+                <th>ID</th>
+                <th>Stock</th>
+                <th>Image</th>
+                <th>Titre</th>
+                <th>Prix unitaire(€)</th>
+                <th>Quantité</th>
+                <th>Total</th>
+                <th>Supprimer</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+
+
+            {% for cartProduct in cartProducts %}
+
+                {% set product = cartProduct.product %}
+
+                <tr class="align-middle">
+                    <td>{{ product.id }}</td>
+                    <td>{{ product.stock }}</td>
+                    <td>
+                        {% if product.picture %}
+                            <img src="{{ asset('images/product/' ~  product.picture ) }}" alt="" class="img100">
+                        {% else %}
+                            <img src="{{ asset('images/jewerly.webp' ) }}" alt="" class="img100">
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <a href="{{ path('app_catalog_product', {'id' : product.id })}}">{{ product.title|capitalize }}</a>
+                    </td>
+
+                    <td>{{ product.price }}</td>
+                    <td>
+
+                        <form method="post" class="d-inline-block" action="{{ path('app_cart_product_adjust') }}">
+                            <input type="hidden" name="productId" value="{{ product.id }}">
+                            <input type="hidden" name="adjust" value="minus">
+                            <button class="btn-no-design">{{ ux_icon('ic:baseline-minus', {'class': 'icon25 text-info'}) }}</button>
+                        </form>
+                        
+                        {{ cartProduct.quantity }} 
+                        
+                        <form method="post" class="d-inline-block" action="{{ path('app_cart_product_adjust') }}">
+                            <input type="hidden" name="productId" value="{{ product.id }}">
+                            <input type="hidden" name="adjust" value="plus">
+                            <button class="btn-no-design">{{ ux_icon('rivet-icons:plus', {'class': 'icon20 text-info'}) }}</button>
+                        </form>
+                        
+                    </td>
+                    <td>{{ product.price * cartProduct.quantity }}</td>
+                    
+
+                    <td>
+                        <form method="post" class="d-inline-block" action="{{ path('app_cart_product_remove') }}" onsubmit="return confirm('êtes-vous sûr de vouloir supprimer retirer le produit du panier?');">
+                            <input type="hidden" name="productId" value="{{ product.id }}">
+                            <button class="btn-no-design">{{ ux_icon('lucide:trash-2', {'class': 'icon25 text-danger'}) }}</button>
+                        </form>
+                    </td>
+
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8">Aucun produit dans le panier</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+
+        {% if cartProducts %}
+        
+            <tfoot class="table-primary">
+                <tr>
+                    <td colspan="6"></td>
+                    <td>{{ account }}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        
+        {% endif %}
+
+    </table>
+
+
+    {% if cartProducts %}
+        <form method="post" action="{{ path('app_cart_clean') }}" onsubmit="return confirm('êtes-vous sûr de vouloir vider le panier?');">
+            <input type="submit" class="btn btn-danger" value="Vider le panier">
+        </form>
+    {% endif %}
+
+
+{% endblock %}

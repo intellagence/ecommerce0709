@@ -1,0 +1,132 @@
+{% extends "base.html.twig" %}
+
+{% block title %}{{ product.title|capitalize }}{% endblock %}
+
+{% block h1 %}{{ product.title|capitalize }}{% endblock %}
+
+{% block body %}
+
+    <a class="btn btn-dark" href="{{ path('app_catalog') }}">Catalogue</a>
+
+    <div class="row">
+
+        <div class="col-md-6">
+        
+
+            {% if product.picture %}
+                <img src="{{ asset('images/product/' ~  product.picture ) }}" alt="" class="w-100">
+            {% else %}
+                <img src="{{ asset('images/jewerly.webp' ) }}" alt="" class="w-100">
+            {% endif %}
+
+            <p class="text-end fs-5">{{ product.price }} €</p>
+
+            <h2>Description</h2>
+
+            {% if product.description %}
+                {{ product.description|nl2br }}
+                {# nl2br => New Line To BReak #}
+            {% else %}
+                {{ ux_icon('iconoir:xmark', {'class': 'icon30 text-danger'}) }}
+            {% endif %}
+
+
+            <h2>Catégorie</h2>
+            
+            {% if product.category %}
+                <a href="{{ path('app_category_show', {'id' : product.category.id }) }}">{{ product.category.title|capitalize }}</a>
+            {% else %}
+                {{ ux_icon('iconoir:xmark', {'class': 'icon30 text-danger'}) }}
+            {% endif %}
+
+
+
+            <h2>Marque</h2>
+
+            {% if product.brand %}
+                <a href="{{ path('app_brand_show', {'id' : product.brand.id }) }}">{{ product.brand.title|capitalize }}</a>
+            {% else %}
+                {{ ux_icon('iconoir:xmark', {'class': 'icon30 text-danger'}) }}
+            {% endif %}
+
+
+
+
+            {% set materialName = '' %}
+            
+            {% if product.materials|length > 1 %}
+                {% set materialName = 's' %}
+            {% endif %}
+
+            <h2>Matière{{ materialName }}</h2>
+
+                <ul class="list-group">
+                    {% for material in product.materials %}
+                        <a class="text-decoration-none" href="{{ path('app_material_show', {'id' : material.id }) }}">
+                            <li class="list-group-item list-group-item-action">{{ material.title }}</li>
+                        </a>
+                    {% endfor %}
+                </ul>
+
+
+            <hr>
+
+            {% for comment in product.comments %}
+                <div class="shadow p-4 m-4">
+                    {{comment.message}}
+                </div>
+            {% endfor %}
+
+            {{ form_start(form) }} {# balise form ouvrante #}
+                {{ form_row(form.message) }}
+
+                <input type="submit" value="Ajouter" class="btn btn-primary w-100 mt-2">
+            
+
+            {{ form_end(form) }}
+
+
+        </div>
+
+
+        <div class="col-md-6 text-center">
+            <h2 class="text-center">Ajouter au panier</h2>
+
+            {% if product.stock > 0 %}
+
+
+                <form method="post" action="{{ path('app_cart_add') }}">
+
+                    {% set quantity = 10 %}
+
+                    {% if product.stock < 10 %}
+                        {% set quantity = product.stock %}
+                    {% endif %}
+
+                    <select name="quantity" id="" class="form-control">
+                        {% for i in 1..quantity %}
+                            <option value="{{ i }}">{{i}}</option>
+                        {% endfor %}
+                    </select>
+
+                    <input type="hidden" name="productId" value="{{ product.id }}">
+
+                    {% if product.stock == 1 %}
+                        <p class="fst-italic text-danger">Attention, c'est le dernier produit en stock</p>
+                    {% elseif product.stock == 2 %}
+                        <p class="fst-italic text-danger">Attention, ce sont les 2 derniers produits en stock</p>
+                    {% elseif product.stock == 3 %}
+                        <p class="fst-italic text-danger">Attention, ce sont les 3 derniers produits en stock</p>
+                    {% endif %}
+
+                    <input type="submit" value="Ajouter au panier" class="btn btn-dark">
+                </form>
+            {% else %}
+                <p class="fs-4 text-danger">Rupture de stock</p>
+            {% endif %}
+        </div>
+    
+    </div>
+
+    
+{% endblock %}

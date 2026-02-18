@@ -19,6 +19,18 @@
             <div class="col-md-6">{{ form_row(formProduct.category) }}</div>
             <div class="col-md-6">{{ form_row(formProduct.brand) }}</div>
         </div>
+
+        {{ form_row(formProduct.materials) }}
+
+
+        <div class="row align-center">
+            <div class="col-md-6">{{ form_row(formProduct.picture) }}</div>
+            <div id="zoneImage" class="col-md-6">
+                {% if product.picture %}
+                    <img src="{{ asset('images/product/' ~  product.picture ) }}" alt="" class="w-75 mx-auto d-block">
+                {% endif %}
+            </div>
+        </div>
         
 
         {{ form_rest(formProduct)}}
@@ -27,5 +39,27 @@
         
 
     {{ form_end(formProduct) }}
+
+{% endblock %}
+
+
+{% block js %}
+
+    <script>
+
+        let zoneImage = document.getElementById('zoneImage');
+
+        document.getElementById('product_picture').addEventListener('change', function(e){
+
+            zoneImage.textContent = "";
+            let imagePreview = document.createElement('img');
+            imagePreview.setAttribute('src', URL.createObjectURL(e.target.files[0]))
+            imagePreview.setAttribute('class' , 'w-75 mx-auto d-block')
+            zoneImage.append(imagePreview)
+
+        })
+    
+    
+    </script>
 
 {% endblock %}

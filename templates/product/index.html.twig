@@ -18,6 +18,8 @@
                 <th>Description</th>
                 <th>Catégorie</th>
                 <th>Marque</th>
+                <th>Image</th>
+                <th>Stock</th>
                 <th></th>
             </tr>
         </thead>
@@ -54,7 +56,7 @@
 
             {% for product in products %}
 
-                <tr>
+                <tr class="align-middle">
                     <td>{{ product.id }}</td>
                     <td>{{ product.title|capitalize }}</td>
                     <td>{{ product.price }}</td>
@@ -93,6 +95,17 @@
                             {{ ux_icon('iconoir:xmark', {'class': 'icon30 text-danger'}) }}
                         {% endif %}
                     </td>
+
+                    <td>
+                        {% if product.picture %}
+                            <img src="{{ asset('images/product/' ~  product.picture ) }}" alt="" class="img100">
+                        {% else %}
+                            {{ ux_icon('iconoir:xmark', {'class': 'icon30 text-danger'}) }}
+                        {% endif %}
+                    </td>
+
+
+                    <td>{{ product.stock }}</td>
 
                     <td>
                         <a href="{{ path('app_product_show', {'id' : product.id }) }}" class="text-decoration-none">

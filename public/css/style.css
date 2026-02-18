@@ -25,8 +25,17 @@
     height: 25px;
 }
 
+.icon20{
+    width: 20px;
+    height: 20px;
+}
+
 .btn-no-design{
     background-color: transparent;
     border:none;
     padding: 0;
+}
+
+.img100{
+    width: 100px;
 }

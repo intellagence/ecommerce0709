@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand text-white" href="{{ path('app_home') }}">Ecommerce</a>
+        <a class="navbar-brand text-white" href="{{ path('app_home') }}">{{ company }}</a>
 
         <button class="navbar-toggler bg-white" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -27,7 +27,28 @@
 
                 
 
+
+                </li>
+                    <a class="nav-link text-white" href="{{ path('app_chart') }}">Chart</a>
+                </li>
+
+                
+
             
+
+
+            </ul>
+
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+                <li>
+                    <a class="nav-link text-white" href="{{ path('app_cart_index') }}">
+                        {{ ux_icon('tdesign:cart-filled', {'class': 'icon25 text-white'}) }} ({{ parameter.cartQuantity}})
+                    </a>
+                </li>
+
+
+
                 {# Si un utilisateur est connecté #}
                 {% if app.user %}
 
@@ -59,6 +80,7 @@
                         - null : s'il n'y a pas d'utilisateur connecté
                         - objet issu de l'entity User : s'il y a un utilisateur connecté
                 #}
+
 
             </ul>
         </div>
